@@ -106,17 +106,20 @@
 
     /* 成員卡片 */
     .members-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
-    }
-    .member-card {
-      background: #f0f4f8;
-      border-radius: 10px;
-      padding: 28px 20px;
-      text-align: center;
-      transition: transform .2s, box-shadow .2s;
-    }
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: 20px;
+    justify-content: center; 
+}
+  .member-card {
+    background: #f0f4f8;
+    border-radius: 10px;
+    padding: 28px 20px;
+    text-align: center;
+    transition: transform .2s, box-shadow .2s;
+    max-width: 250px;
+    margin: 0 auto; 
+}
     .member-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 6px 16px rgba(0,0,0,.1);
