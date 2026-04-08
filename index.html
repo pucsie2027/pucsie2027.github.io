@@ -107,9 +107,15 @@
     /* 成員卡片 */
     .members-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    /* 1. 讓卡片固定在 200px 左右，不要讓它們自動增長填滿剩餘空間 */
+    grid-template-columns: repeat(auto-fit, 220px); 
+    /* 2. 設定卡片之間的固定間距 */
     gap: 20px;
+    /* 3. 讓整組卡片在頁面中央靠攏 */
     justify-content: center; 
+    /* 4. 可選：限制整組網格的最大寬度（例如四張卡片的總寬） */
+    max-width: 1000px;
+    margin: 0 auto;
 }
   .member-card {
     background: #f0f4f8;
