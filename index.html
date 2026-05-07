@@ -1,356 +1,140 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>專題製作</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
-      color: #333;
-      line-height: 1.8;
-      background: #f5f7fa;
-    }
-
-    /* 主視覺 */
-    header {
-      background: linear-gradient(135deg, #1a3a5c, #2a6496);
-      color: #fff;
-      text-align: center;
-      padding: 60px 20px 40px;
-    }
-    header h1 { font-size: 2.4rem; margin-bottom: 12px; }
-    header p  { font-size: 1.15rem; opacity: .85; }
-
-    /* Tabs 容器 */
-    .tabs {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    /* Tab 按鈕列 */
-    .tab-nav {
-      display: flex;
-      background: #2c3e50;
-      border-radius: 12px 12px 0 0;
-      overflow: hidden;
-      margin-top: -20px;
-      position: relative;
-      z-index: 10;
-      box-shadow: 0 2px 8px rgba(0,0,0,.15);
-    }
-    .tab-btn {
-      flex: 1;
-      background: none;
-      border: none;
-      color: rgba(255,255,255,.7);
-      font-family: inherit;
-      font-size: 1rem;
-      padding: 16px 12px;
-      cursor: pointer;
-      transition: background .2s, color .2s;
-      position: relative;
-    }
-    .tab-btn:hover {
-      background: rgba(255,255,255,.1);
-      color: #fff;
-    }
-    .tab-btn.active {
-      background: #fff;
-      color: #2c3e50;
-      font-weight: bold;
-    }
-    .tab-btn.active::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 40px;
-      height: 3px;
-      background: #2a6496;
-      border-radius: 2px;
-    }
-
-    /* Tab 內容 */
-    .tab-panel {
-      display: none;
-      background: #fff;
-      border-radius: 0 0 12px 12px;
-      padding: 48px 36px;
-      box-shadow: 0 4px 16px rgba(0,0,0,.08);
-      margin-bottom: 40px;
-      animation: fadeIn .3s ease;
-    }
-    .tab-panel.active {
-      display: block;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .tab-panel h2 {
-      font-size: 1.6rem;
-      color: #2c3e50;
-      border-left: 4px solid #2a6496;
-      padding-left: 12px;
-      margin-bottom: 24px;
-    }
-
-    /* 主題說明 */
-    .topic-content p { margin-bottom: 14px; }
-
-    /* 成員卡片 */
-    .members-grid {
-    display: grid;
-    /* 1. 讓卡片固定在 200px 左右，不要讓它們自動增長填滿剩餘空間 */
-    grid-template-columns: repeat(auto-fit, 220px); 
-    /* 2. 設定卡片之間的固定間距 */
-    gap: 20px;
-    /* 3. 讓整組卡片在頁面中央靠攏 */
-    justify-content: center; 
-    /* 4. 可選：限制整組網格的最大寬度（例如四張卡片的總寬） */
-    max-width: 1000px;
-    margin: 0 auto;
-}
-  .member-card {
-    background: #f0f4f8;
-    border-radius: 10px;
-    padding: 28px 20px;
-    text-align: center;
-    transition: transform .2s, box-shadow .2s;
-    max-width: 250px;
-    margin: 0 auto; 
-}
-    .member-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 6px 16px rgba(0,0,0,.1);
-    }
-    .member-card .avatar {
-      width: 80px; height: 80px;
-      border-radius: 50%;
-      background: #2a6496;
-      color: #fff;
-      font-size: 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 14px;
-    }
-    .member-card h3 { font-size: 1.1rem; margin-bottom: 4px; }
-    .member-card .role { font-size: .9rem; color: #666; }
-
-    /* 進度時間軸 */
-    .timeline { position: relative; padding-left: 28px; }
-    .timeline::before {
-      content: "";
-      position: absolute;
-      left: 8px; top: 0; bottom: 0;
-      width: 3px;
-      background: #2a6496;
-      border-radius: 2px;
-    }
-    .timeline-item {
-      position: relative;
-      margin-bottom: 32px;
-    }
-    .timeline-item::before {
-      content: "";
-      position: absolute;
-      left: -24px; top: 6px;
-      width: 14px; height: 14px;
-      background: #fff;
-      border: 3px solid #2a6496;
-      border-radius: 50%;
-    }
-    .timeline-item.done::before { background: #2a6496; }
-    .timeline-item .date {
-      font-size: .85rem;
-      color: #2a6496;
-      font-weight: bold;
-      margin-bottom: 2px;
-    }
-    .timeline-item h3 { font-size: 1.05rem; margin-bottom: 4px; }
-    .timeline-item p  { font-size: .95rem; color: #555; }
-
-    /* 參考資料 */
-    .ref-list { list-style: decimal; padding-left: 24px; }
-    .ref-list li {
-      margin-bottom: 12px;
-      line-height: 1.7;
-    }
-    .ref-list a { color: #2a6496; text-decoration: none; }
-    .ref-list a:hover { text-decoration: underline; }
-
-    /* 頁尾 */
-    footer {
-      text-align: center;
-      padding: 24px;
-      background: #2c3e50;
-      color: rgba(255,255,255,.7);
-      font-size: .85rem;
-    }
-
-    /* RWD */
-    @media (max-width: 600px) {
-      header h1 { font-size: 1.8rem; }
-      .tabs { padding: 0 12px; }
-      .tab-nav { flex-wrap: wrap; border-radius: 10px 10px 0 0; }
-      .tab-btn { flex: 1 1 50%; font-size: .9rem; padding: 14px 8px; }
-      .tab-panel { padding: 32px 20px; }
-    }
-  </style>
+  <title>練習小屋 — 寫程式不用緊張</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<!-- 主視覺 -->
-<header>
-  <h1>專題名稱:全方位程式診斷與語法學習助手</h1>
-  <p>靜宜大學資訊工程學系 — 114 學年度第 2 學期</p>
-</header>
-
-<!-- Tabs -->
-<div class="tabs">
-  <div class="tab-nav">
-    <button class="tab-btn active" data-tab="topic">主題說明</button>
-    <button class="tab-btn" data-tab="members">計畫成員</button>
-    <button class="tab-btn" data-tab="progress">專題進度</button>
-    <button class="tab-btn" data-tab="references">參考資料</button>
-    <button class="tab-btn" data-tab="tools">使用工具</button>
-  </div>
-
-  <!-- 一、主題說明 -->
-<div class="tab-panel active" id="topic">
-    <h2>主題說明</h2>
-    <div class="topic-content">
-        <p><strong>研究動機：</strong> 針對初學者面對 C++ 或 Python 繁瑣語法與邏輯報錯時的挫折，開發如「專屬家教」般的 Chatbot，即時協助除錯並建立編程自信。</p>
-
-        <p style="margin-bottom: 0;"><strong>研究目的：</strong></p>
-        <ul style="margin-top: 0; margin-bottom: 24px; padding-left: 40px;">
-            <li><strong>即時診斷：</strong> 提供 Syntax 與 Runtime Error 的白話解釋與修復建議。</li>
-            <li><strong>觀念引導：</strong> 透過提問協助使用者釐清邏輯瓶頸，而非直接給答案。</li>
-            <li><strong>個人化體驗：</strong> 針對不同程度使用者提供相應深度的解答。</li>
-        </ul>
-
-        <p><strong>系統架構：</strong> 本系統預計以大型語言模型為核心，串接後端診斷模組，並整合於互動式網頁介面，提供流暢的除錯對話體驗。</p>
-
-        <p><strong>預期成果：</strong> 打造支持多語言（Python、C/C++）的實作系統，經實測能顯著縮短學生除錯時間，提升程式學習效率。</p>
-    </div>
-</div>
-  <!-- 二、計畫成員 -->
-  <div class="tab-panel" id="members">
-    <h2>計畫成員</h2>
-    <div class="members-grid">
-      <div class="member-card">
-        <div class="avatar">指</div>
-        <h3>朱學亭</h3>
-        <p class="role">指導教授</p>
-      </div>
-      <div class="member-card">
-        <div class="avatar">A</div>
-        <h3>學生:林靖翔</h3>
-        <p class="role">組長</p>
-      </div>
-      <div class="member-card">
-        <div class="avatar">B</div>
-        <h3>學生:鄭宇軒</h3>
-        <p class="role">組員</p>
-     </div>
-    </div> </div> 
-  <!-- 三、專題進度 -->
-  <div class="tab-panel" id="progress">
-    <h2>專題進度</h2>
-    <div class="timeline">
-      <div class="timeline-item done">
-        <div class="date">2026 年 2 月</div>
-        <h3>題目確認與文獻蒐集</h3>
-        <p>確定專題方向，蒐集相關資料。</p>
-        <p>擬定專題大綱</p>
-      </div>
-      <div class="timeline-item">
-        <div class="date">2026 年 3 月</div>
-        <h3>需求分析與系統規劃</h3>
-        <p>架設模擬環境網站</p>
-
-        <a href="progress-202603.html" style="font-size: .85rem; color: #2a6496; display: inline-block; margin-top: 8px; text-decoration: none;">→ 查看詳細報告</a>
-      </div>
-      <div class="timeline-item done">
-        <div class="date">2026 年 4 月</div>
-        <h3>雛型開發</h3>
-        <p>開始介紹並實際操作各種輔助工具</p>
-        
-        <a href="progress-202604.html" style="font-size: .85rem; color: #2a6496; display: inline-block; margin-top: 8px; text-decoration: none;">→ 查看詳細報告</a>
-      </div>
-      <div class="timeline-item">
-        <div class="date">2026 年 5 月</div>
-        <h3>系統整合與測試</h3>
-        <p>前後端整合、撰寫測試案例並修正問題。</p>
-        
-        <a href="progress-202605.html" style="font-size: .85rem; color: #2a6496; display: inline-block; margin-top: 8px; text-decoration: none;">→ 查看詳細報告</a>
-      </div>
-      <div class="timeline-item">
-        <div class="date">2026 年 6 月</div>
-        <h3>報告撰寫與成果展示</h3>
-        <p>撰寫專題報告，準備口頭報告與展示。</p>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" width="22" height="22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21h6M10 21v-2.5M14 21v-2.5M7 13.5a5 5 0 1 1 10 0c0 1.7-.9 3.2-2.3 4-.5.3-.7.8-.7 1.3v.7H10v-.7c0-.5-.2-1-.7-1.3A4.7 4.7 0 0 1 7 13.5z"/>
+        </svg>
+      </span>
+      <div class="brand-text">
+        <div class="brand-title">練習小屋</div>
+        <div class="brand-sub">慢慢來，一題一題練</div>
       </div>
     </div>
-  </div>
+    <div class="topbar-right">
+      <label class="select-label">
+        <span>題目</span>
+        <select id="problem-select">
+          <option value="aplusb">A + B Problem</option>
+          <option value="factorial">階乘計算</option>
+          <option value="prime">質數判定</option>
+        </select>
+      </label>
+      <span class="lang-badge">C++</span>
+      <button id="btn-settings" class="icon-btn" title="偏好設定">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
 
-  <!-- 四、參考資料 -->
-  <div class="tab-panel" id="references">
-    <h2>參考資料</h2>
-    <ol class="ref-list">
-      <li>作者（年份）。論文名稱。<em>期刊名稱</em>，卷(期)，頁碼。</li>
-      <li>作者（年份）。書名。出版社。</li>
-      <li>網站名稱。<a href="https://example.com" target="_blank">https://www.aidea-web.tw/aicup_veripromiseesg</a>（存取日期：2026 年 4 月）。</li>
-      <li>請依照指導教授要求的引用格式，持續新增參考文獻。</li>
-    </ol>
-  </div>
-</div>
-  <!-- 五、使用工具 -->
-  <div class="tab-panel" id="tools">
-  <h2>使用工具</h2>
-  <div class="members-grid"> <div class="member-card">
-      <div class="avatar" style="background: #3776ab;">Py</div>
-      <h3>Python</h3>
-      <p class="role">核心開發語言</p>
+  <main class="layout">
+    <section class="panel problem-panel">
+      <div class="panel-header">
+        <span>題目</span>
+      </div>
+      <div class="panel-body" id="problem-body"></div>
+    </section>
+
+    <section class="panel code-panel">
+      <div class="panel-header">
+        <span>程式碼</span>
+        <div class="actions">
+          <button id="btn-reset" class="btn-ghost" title="還原成初始程式碼">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12a9 9 0 1 0 3-6.7"/>
+              <path d="M3 4v5h5"/>
+            </svg>
+            還原
+          </button>
+          <button id="btn-run" class="btn">試跑一下</button>
+          <button id="btn-submit" class="btn btn-primary">送出評測</button>
+        </div>
+      </div>
+      <div id="editor" class="editor"></div>
+
+      <div class="bottom-tabs">
+        <button class="tab-btn active" data-tab="output">輸出 / 診錯</button>
+        <button class="tab-btn" data-tab="custom">自訂輸入</button>
+        <span id="output-summary" class="summary"></span>
+      </div>
+
+      <div class="tab-content" id="tab-output">
+        <div class="output-body" id="output-body">
+          <div class="output-empty">寫好程式後，按「試跑一下」或「送出評測」開始</div>
+        </div>
+      </div>
+
+      <div class="tab-content hidden" id="tab-custom">
+        <div class="custom-input-area">
+          <label class="custom-label">餵一筆你想測的輸入給程式跑跑看</label>
+          <textarea id="custom-input" placeholder="例如：&#10;3 5"></textarea>
+          <div class="custom-actions">
+            <button id="btn-run-custom" class="btn btn-primary">用這個輸入跑</button>
+          </div>
+          <div id="custom-output" class="custom-output"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="settings-panel" class="settings-panel hidden">
+    <div class="settings-header">
+      <span>偏好設定</span>
+      <button id="btn-close-settings" class="icon-btn" title="關閉">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <path d="M6 6l12 12M18 6L6 18"/>
+        </svg>
+      </button>
     </div>
-    <div class="member-card">
-      <div class="avatar" style="background: #000;">AI</div>
-      <h3>Claude API</h3>
-      <p class="role">大型語言模型診斷</p>
+    <div class="settings-body">
+      <div class="setting-row">
+        <label>字體大小</label>
+        <div class="setting-control">
+          <input type="range" id="font-size" min="12" max="22" step="1" value="14">
+          <span id="font-size-val" class="setting-value">14</span>
+        </div>
+      </div>
+      <div class="setting-row">
+        <label>Tab 寬度</label>
+        <div class="setting-control">
+          <select id="tab-size">
+            <option value="2">2 個空白</option>
+            <option value="4" selected>4 個空白</option>
+            <option value="8">8 個空白</option>
+          </select>
+        </div>
+      </div>
+      <div class="setting-row">
+        <label>自動換行</label>
+        <div class="setting-control">
+          <input type="checkbox" id="word-wrap">
+        </div>
+      </div>
+      <div class="setting-row">
+        <label>顯示小地圖</label>
+        <div class="setting-control">
+          <input type="checkbox" id="minimap">
+        </div>
+      </div>
     </div>
-    <div class="member-card">
-      <div class="avatar" style="background: #24292e;">Git</div>
-      <h3>GitHub</h3>
-      <p class="role">版本控制與部署</p>
-    </div>
-    <div class="member-card">
-      <div class="avatar" style="background: #563d7c;">BS</div>
-      <h3>Bootstrap / CSS</h3>
-      <p class="role">網頁介面設計</p>
+    <div class="settings-footer">
+      設定會自動保存
     </div>
   </div>
-</div>
-<!-- 頁尾 -->
-<footer>
-  &copy; 靜宜大學資訊工程學系 — 114 學年度第 2 學期 專題製作
-</footer>
+  <div id="settings-backdrop" class="settings-backdrop hidden"></div>
 
-<script>
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById(btn.dataset.tab).classList.add('active');
-    });
-  });
-</script>
-
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/loader.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
