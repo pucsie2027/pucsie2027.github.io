@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>進度報告 — 2026年五月份進度報告</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      color: #333;
+      line-height: 1.8;
+      background: #f5f7fa;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a3a5c, #2a6496);
+      color: #fff;
+      text-align: center;
+      padding: 50px 20px 35px;
+    }
+    header h1 { font-size: 2rem; margin-bottom: 8px; }
+    header p  { font-size: 1rem; opacity: .85; }
+    .back-link {
+      display: inline-block;
+      margin: 20px 0 0 0;
+      color: rgba(255,255,255,.85);
+      text-decoration: none;
+      font-size: .95rem;
+    }
+    .back-link:hover { color: #fff; text-decoration: underline; }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 24px 60px;
+    }
+
+    .report-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 40px 36px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.08);
+      margin-bottom: 28px;
+    }
+
+    .report-card h2 {
+      font-size: 1.4rem;
+      color: #2c3e50;
+      border-left: 4px solid #2a6496;
+      padding-left: 12px;
+      margin-bottom: 20px;
+    }
+
+    .report-card h3 {
+      font-size: 1.15rem;
+      color: #34495e;
+      margin: 18px 0 10px;
+    }
+
+    .report-card ul {
+      padding-left: 28px;
+      margin-bottom: 14px;
+    }
+    .report-card li {
+      margin-bottom: 10px;
+      color: #444;
+      font-size: 1.05rem;
+    }
+
+    .summary {
+      background: #eaf2f8;
+      border-left: 4px solid #2a6496;
+      padding: 16px 20px;
+      margin-top: 18px;
+      border-radius: 4px;
+      color: #2c3e50;
+      font-size: 1.02rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #2c3e50;
+      color: rgba(255,255,255,.7);
+      font-size: .85rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.5rem; }
+      .report-card { padding: 28px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>進度報告 — 2026年五月份進度報告</h1>
+  <p>全方位程式診斷與語法學習助手 — 靜宜大學資訊工程學系 114 學年度第 2 學期</p>
+  <a class="back-link" href="index.html">← 返回專題首頁</a>
+</header>
+
+<div class="container">
+
+  <div class="report-card">
+    <h2>一、試做專題前端並尋找後端資源</h2>
+
+    <h3>1. 確立專案架構與開發策略</h3>
+    <ul>
+      <li><strong>前後端分離：</strong>決定將「全方位程式檢定助理」拆分為前端（畫面體驗）與後端（核心邏輯與 AI 模型），清楚定義各自職責。</li>
+      <li><strong>API 優先（API-First）：</strong>確立了先開發後端 API 的策略，讓後端成為一個獨立運作的「服務總機」，未來無論接上網頁或 App 都能暢通無阻。</li>
+    </ul>
+
+    <h3>2. 成功在本機端喚醒 AI 大腦</h3>
+    <ul>
+      <li><strong>環境建置：</strong>在 VS Code 編輯器中，成功安裝了 transformers 與 PyTorch 等核心 AI 套件，完成開發環境配置。</li>
+      <li><strong>模型下載與推論：</strong>從 Hugging Face 下載 Qwen2.5-Coder-1.5B-Instruct（約 3GB）模型並成功在本機完成推論測試。</li>
+      <li><strong>角色扮演測試：</strong>撰寫第一支 Python 測試程式，成功讓 AI 扮演「導師」，精準且委婉地找出程式碼中缺少的「冒號」，驗證 Prompt（提示詞）策略完全有效。</li>
+    </ul>
+  </div>
+
+  <div class="report-card">
+    <h2>二、模型測試與 API 實作</h2>
+
+    <h3>3. 架設 FastAPI 伺服器總機</h3>
+    <ul>
+      <li><strong>API 封裝：</strong>將原本單純的 AI 推論邏輯，正式裝進 FastAPI 框架中，建立了可以接收外部資料的 POST /api/diagnose 端點，完成 API 接口實作。</li>
+      <li><strong>伺服器啟動：</strong>學會使用 uvicorn 指令，將程式變成 24 小時待命的伺服器（運行於 localhost:8000）。</li>
+      <li><strong>內部連線測試：</strong>透過 FastAPI 內建的 Swagger UI（/docs），成功發送 JSON 測試包，並完美收到 200 OK 與 AI 導師的回覆。</li>
+    </ul>
+
+    <h3>4. 模型測試與功能優化</h3>
+    <ul>
+      <li><strong>模型探索：</strong>從 Hugging Face Space 尋找合適的模型範例，並完成相關環境模組安裝。</li>
+      <li><strong>功能試跑：</strong>成功跑通他人分享的 Qwen 推論範例，並測試模型對程式碼診斷的效果。</li>
+      <li><strong>後處理優化：</strong>針對試跑結果撰寫文字過濾功能，確保 AI 回覆內容簡潔正確。</li>
+    </ul>
+  </div>
+
+  <div class="report-card">
+    <h2>三、內網穿透，API 正式上線全球</h2>
+    <ul>
+      <li><strong>Ngrok 部署：</strong>下載並成功設定 Ngrok 礦工程式，綁定了專屬通行證，完成雲端穿透準備。</li>
+      <li><strong>打通地道：</strong>成功執行指令，將電腦裡的 8000 埠對外開放，獲得一串專屬的 https://...ngrok-free.dev 公開網址，後端正式具備了商業上線的連線能力。</li>
+    </ul>
+  </div>
+
+  <div class="report-card">
+    <h2>四、製作 ICFI 報告簡報</h2>
+    <ul>
+      <li>依據專案進度與成果，整理並製作 ICFI 相關報告簡報，呈現本月開發成果與技術架構說明。</li>
+    </ul>
+
+    <div class="summary">
+      <strong>本月總結：</strong>「全方位程式檢定助理」現已擁有一個實體存在、隨時待命，且全世界都能連線呼叫的 AI 大腦。完成了從本機模型部署、FastAPI 封裝、到雲端公開上線的完整後端架構建置，為後續前端串接與功能擴展奠定了堅實基礎。
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  &copy; 靜宜大學資訊工程學系 — 114 學年度第 2 學期 專題製作
+</footer>
+
+</body>
+</html>
