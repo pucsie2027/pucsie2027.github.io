@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 程式診斷助手 - 專業版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { background-color: #0f172a; color: #f1f5f9; font-family: 'Inter', system-ui, sans-serif; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-font { font-family: 'Fira Code', 'Courier New', monospace; }
+        @keyframes pulse-glow { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .loading-pulse { animation: pulse-glow 2s infinite; }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-10">
+    <div class="max-w-6xl mx-auto">
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-emerald-400">👨‍💻 全方位程式診斷助手</h1>
+                <p class="text-slate-400 mt-1">您的專屬 AI 程式導師，24/7 在線引導</p>
+            </div>
+            <div class="hidden md:block">
+                <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-sm border border-emerald-500/30">
+                    <i class="fa-solid fa-circle text-[10px] mr-2"></i>API 運作中 (Ngrok)
+                </span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="glass rounded-2xl p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-semibold"><i class="fa-solid fa-code mr-2"></i>程式碼編輯區</h2>
+                    <select id="langSelect" class="bg-slate-800 border border-slate-700 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <option value="python">Python</option>
+                        <option value="cpp">C++</option>
+                    </select>
+                </div>
+                <textarea id="codeInput" class="w-full h-96 bg-slate-900/50 code-font p-4 rounded-xl border border-slate-700 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition-all" 
+                    placeholder="請在此貼上有問題的程式碼..."></textarea>
+                <button onclick="diagnoseCode()" class="w-full mt-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition-all shadow-lg shadow-emerald-900/20 active:scale-[0.98]">
+                    <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>開始分析診斷
+                </button>
+            </div>
+
+            <div class="flex flex-col gap-6">
+                <div class="glass rounded-2xl p-6 flex-grow min-h-[400px]">
+                    <h2 class="text-xl font-semibold mb-4 text-emerald-400"><i class="fa-solid fa-brain mr-2"></i>AI 導師診斷建議</h2>
+                    
+                    <div id="loading" class="hidden flex flex-col items-center justify-center h-64 text-slate-400">
+                        <div class="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+                        <p class="loading-pulse">正在深度閱讀您的程式碼邏輯...</p>
+                    </div>
+
+                    <div id="resultBox" class="hidden space-y-4">
+                        <div class="bg-slate-800/50 p-5 rounded-xl border-l-4 border-emerald-500 leading-relaxed text-lg">
+                            <p id="diagnosisText"></p>
+                        </div>
+                        <div class="bg-blue-500/10 p-4 rounded-lg border border-blue-500/20 text-blue-300 text-sm italic">
+                            <i class="fa-solid fa-circle-info mr-2"></i>小提示：請根據 AI 導師的引導思考，嘗試自己動手修改看看！
+                        </div>
+                    </div>
+
+                    <div id="placeholder" class="flex flex-col items-center justify-center h-64 text-slate-500">
+                        <i class="fa-solid fa-terminal text-5xl mb-4 opacity-20"></i>
+                        <p>等待輸入中... 請在左側輸入程式碼並點擊診斷。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function diagnoseCode() {
+            const code = document.getElementById('codeInput').value;
+            const lang = document.getElementById('langSelect').value;
+            const diagnosisText = document.getElementById('diagnosisText');
+            const resultBox = document.getElementById('resultBox');
+            const loading = document.getElementById('loading');
+            const placeholder = document.getElementById('placeholder');
+
+            if (!code.trim()) return alert("請輸入程式碼！");
+
+            // UI 狀態切換
+            loading.classList.remove('hidden');
+            resultBox.classList.add('hidden');
+            placeholder.classList.add('hidden');
+
+            try {
+                // ⚠️ 請填入你的 Ngrok 網址
+                const apiUrl = "http://127.0.0.1:8000/api/diagnose";
+
+                const response = await fetch(apiUrl, {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "ngrok-skip-browser-warning": "true" // 加入這行破解咒語
+                },
+                body: JSON.stringify({
+                    code: code,
+                    language: lang
+                })
+            });
+
+                const data = await response.json();
+                diagnosisText.innerText = data.diagnosis;
+                
+                loading.classList.add('hidden');
+                resultBox.classList.remove('hidden');
+            } catch (error) {
+                loading.classList.add('hidden');
+                placeholder.classList.remove('hidden');
+                alert("連線 API 失敗，請確認後端與 Ngrok 是否運作中。");
+            }
+        }
+    </script>
+</body>
+</html>
